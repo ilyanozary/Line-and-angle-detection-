@@ -1,21 +1,21 @@
 import cv2 
 import numpy as np
 
-cap = cv2.VideoCapture(0) #دوربین
+cap = cv2.VideoCapture(0) 
 
 while True:
     ret, frame = cap.read()
     hsv = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
 
-    # تعیین محدوده رنگی برای خطوط مشکی با حساسیت بیشتر
+ 
     lower_black = np.array([0, 0, 0])
     upper_black = np.array([180, 255, 50])
 
-    # اعمال فیلتر رنگ بر روی تصویر HSV
+
     mask = cv2.inRange(hsv, lower_black, upper_black)
     filtered = cv2.bitwise_and(frame, frame, mask=mask)
 
-    # اعمال تبدیل هاف بر روی تصویر فیلتر شده
+
     filtered_gray = cv2.cvtColor(filtered, cv2.COLOR_BGR2GRAY)
     edges = cv2.Canny(filtered_gray, 50, 150, apertureSize=3)
     lines = cv2.HoughLinesP(edges, 1, np.pi/180, threshold=100, minLineLength=100, maxLineGap=10)
